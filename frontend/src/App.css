@@ -103,6 +103,13 @@
   vertical-align: middle;
 }
 
+.schedule-table tbody td.cell-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 160px;
+}
+
 .schedule-table tbody td.cell-datetime {
   white-space: nowrap;
 }

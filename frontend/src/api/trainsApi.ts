@@ -28,6 +28,7 @@ export async function fetchTrains(
 
   const response = await fetch(`${API_BASE}?${query.toString()}`, {
     headers: buildHeaders(token),
+    cache: 'no-store',
   });
 
   if (!response.ok) {

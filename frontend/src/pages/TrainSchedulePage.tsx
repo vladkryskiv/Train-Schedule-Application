@@ -15,14 +15,30 @@ import type {
 
 type FormMode = 'create' | 'edit';
 
+function parseDateParts(value: string):
+  | { y: string; m: string; d: string; h: string; min: string }
+  | null {
+  if (!value) return null;
+  const match = value.match(
+    /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/,
+  );
+  if (!match) return null;
+  const [, y, m, d, h, min] = match;
+  return { y, m, d, h, min };
+}
+
 function formatDateTime(value: string): string {
-  const date = new Date(value);
-  const d = date.getDate().toString().padStart(2, '0');
-  const m = (date.getMonth() + 1).toString().padStart(2, '0');
-  const y = date.getFullYear();
-  const h = date.getHours().toString().padStart(2, '0');
-  const min = date.getMinutes().toString().padStart(2, '0');
+  const parts = parseDateParts(value);
+  if (!parts) return '';
+  const { y, m, d, h, min } = parts;
   return `${d}.${m}.${y}, ${h}:${min}`;
+}
+
+function toInputDateTime(value: string): string {
+  const parts = parseDateParts(value);
+  if (!parts) return '';
+  const { y, m, d, h, min } = parts;
+  return `${y}-${m}-${d}T${h}:${min}`;
 }
 
 const EMPTY_FORM: Omit<TrainDto, 'id'> = {
@@ -120,8 +136,8 @@ export function TrainSchedulePage({ token, onLogout }: TrainSchedulePageProps) {
     setForm({
       fromStation: train.fromStation,
       toStation: train.toStation,
-      departureTime: train.departureTime,
-      arrivalTime: train.arrivalTime,
+      departureTime: toInputDateTime(train.departureTime),
+      arrivalTime: toInputDateTime(train.arrivalTime),
       price: train.price,
       trainNumber: train.trainNumber,
     });
@@ -138,16 +154,6 @@ export function TrainSchedulePage({ token, onLogout }: TrainSchedulePageProps) {
       setSortDirection('asc');
     }
   };
-
-  const formattedTrains = useMemo(
-    () =>
-      trains.map((train) => ({
-        ...train,
-        departureTime: formatDateTime(train.departureTime),
-        arrivalTime: formatDateTime(train.arrivalTime),
-      })),
-    [trains],
-  );
 
   const sortFields = useMemo(
     () => Object.keys(SORT_FIELD_LABELS) as SortableField[],
@@ -217,12 +223,16 @@ export function TrainSchedulePage({ token, onLogout }: TrainSchedulePageProps) {
               </tr>
             </thead>
             <tbody>
-              {formattedTrains.map((train) => (
+              {trains.map((train) => (
                 <tr key={train.id}>
-                  <td>{train.fromStation}</td>
-                  <td>{train.toStation}</td>
-                  <td className="cell-datetime">{train.departureTime}</td>
-                  <td className="cell-datetime">{train.arrivalTime}</td>
+                  <td className="cell-text">{train.fromStation}</td>
+                  <td className="cell-text">{train.toStation}</td>
+                  <td className="cell-datetime">
+                    {formatDateTime(train.departureTime)}
+                  </td>
+                  <td className="cell-datetime">
+                    {formatDateTime(train.arrivalTime)}
+                  </td>
                   <td className="cell-number">{train.price}</td>
                   <td>{train.trainNumber}</td>
                   <td className="row-actions">
@@ -243,7 +253,7 @@ export function TrainSchedulePage({ token, onLogout }: TrainSchedulePageProps) {
                   </td>
                 </tr>
               ))}
-              {formattedTrains.length === 0 && !isLoading && (
+              {trains.length === 0 && !isLoading && (
                 <tr>
                   <td colSpan={7} className="empty-state">
                     Немає поїздів. Додайте перший.

@@ -19,6 +19,9 @@ import { TrainsModule } from './trains/trains.module';
       url: process.env.DATABASE_URL,
       entities: [User, Train],
       synchronize: true,
+      ssl: {
+        rejectUnauthorized: false,
+      },
     }),
     UsersModule,
     AuthModule,

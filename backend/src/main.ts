@@ -24,7 +24,6 @@ async function bootstrap() {
     }),
   );
 
-  // Увімкнути class-transformer для серіалізації
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
 
   const config = new DocumentBuilder()
@@ -47,7 +46,14 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
-  const port = process.env.PORT ? Number(process.env.PORT) : 3000;
+  const rawPort = process.env.PORT;
+  if (!rawPort) {
+    throw new Error('PORT environment variable is required');
+  }
+  const port = Number(rawPort);
+  if (Number.isNaN(port)) {
+    throw new Error(`PORT environment variable must be a number, got "${rawPort}"`);
+  }
   await app.listen(port);
 }
 
