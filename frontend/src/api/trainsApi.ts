@@ -1,6 +1,7 @@
 import type { TrainDto, SortableField, SortDirection, PaginatedResponse } from '../types/train.types';
+import { API_URL } from '../constants/api.constants';
 
-const API_BASE = '/api/trains';
+const API_BASE = `${API_URL}/trains`;
 
 function buildHeaders(token: string) {
   return {

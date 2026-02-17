@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import type { SyntheticEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { API_URL } from '../constants/api.constants';
 
 export function RegisterPage() {
   const [username, setUsername] = useState('');
@@ -17,7 +18,7 @@ export function RegisterPage() {
     setSuccess(null);
 
     try {
-      const response = await fetch('/api/auth/register', {
+      const response = await fetch(`${API_URL}/auth/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
