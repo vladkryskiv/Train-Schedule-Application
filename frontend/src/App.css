@@ -1,0 +1,289 @@
+#root {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 3rem;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.page-header h1 {
+  font-size: 2rem;
+  margin: 0;
+  color: #0f172a;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.search-sort {
+  display: flex;
+  gap: 0.5rem;
+  align-items: stretch;
+  flex-wrap: wrap;
+}
+
+.search-sort input[type='search'] {
+  flex: 1 1 220px;
+}
+
+.search-sort .secondary-button {
+  flex-shrink: 0;
+}
+
+.sort-buttons {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.sort-direction {
+  font-size: 1.25rem;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 2.5fr) minmax(0, 1.5fr);
+  gap: 1.5rem;
+}
+
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.table-wrapper {
+  border-radius: 12px;
+  background-color: #ffffff;
+  padding: 1rem;
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.12);
+  overflow: auto;
+}
+
+.schedule-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.schedule-table thead th {
+  text-align: left;
+  padding: 0.75rem;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+  font-weight: 600;
+  color: #0f172a;
+  background-color: #f9fafb;
+  vertical-align: middle;
+}
+
+.schedule-table thead th.th-number {
+  text-align: right;
+}
+
+.schedule-table tbody td {
+  padding: 0.65rem 0.75rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+  color: #111827;
+  vertical-align: middle;
+}
+
+.schedule-table tbody td.cell-datetime {
+  white-space: nowrap;
+}
+
+.schedule-table tbody td.cell-number {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.schedule-table tbody tr:hover {
+  background-color: #f3f4ff;
+}
+
+.row-actions {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 1.5rem;
+  color: #6b7280;
+}
+
+.auth-container {
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  border-radius: 16px;
+  background-color: #ffffff;
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.12);
+}
+
+.auth-container h1 {
+  text-align: center;
+  margin: 0 0 1.5rem;
+  color: #0f172a;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.auth-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  text-align: left;
+}
+
+.auth-field span {
+  font-size: 0.9rem;
+  color: #4b5563;
+}
+
+.auth-error {
+  color: #ff6b81;
+  font-size: 0.9rem;
+}
+
+.auth-success {
+  color: #4dd4ac;
+  font-size: 0.9rem;
+}
+
+.auth-switch {
+  margin-top: 1.25rem;
+  font-size: 0.9rem;
+  text-align: center;
+  color: #4b5563;
+}
+
+.form-panel {
+  border-radius: 16px;
+  background-color: #ffffff;
+  padding: 1.25rem 1.5rem 1.5rem;
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.12);
+}
+
+.form-panel h2 {
+  margin: 0 0 1rem;
+}
+
+.train-form {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+}
+
+.train-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.9rem;
+}
+
+.train-form span {
+  color: #4b5563;
+}
+
+.form-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+input,
+button {
+  font-family: inherit;
+}
+
+input {
+  border-radius: 8px;
+  border: 1px solid rgba(148, 163, 184, 0.6);
+  padding: 0.55rem 0.7rem;
+  background-color: #f9fafb;
+  color: #111827;
+}
+
+input:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 0;
+}
+
+.primary-button,
+.secondary-button,
+.danger-button {
+  border-radius: 999px;
+  border: none;
+  padding: 0.45rem 0.9rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+}
+
+.primary-button {
+  background: linear-gradient(135deg, #3b82f6, #0ea5e9);
+  color: #ffffff;
+}
+
+.secondary-button {
+  background-color: #e5e7eb;
+  color: #111827;
+}
+
+.secondary-button.active {
+  background-color: #22c55e;
+  color: #ffffff;
+}
+
+.danger-button {
+  background-color: #ef4444;
+  color: #ffffff;
+}
+
+.primary-button:hover {
+  filter: brightness(1.05);
+}
+
+.secondary-button:hover {
+  background-color: #d1d5db;
+}
+
+.danger-button:hover {
+  filter: brightness(1.05);
+}
+
+.alert {
+  border-radius: 999px;
+  padding: 0.5rem 0.9rem;
+  font-size: 0.9rem;
+  background-color: #e5e7eb;
+  color: #111827;
+}
+
+.alert.error {
+  background-color: #fee2e2;
+  color: #b91c1c;
+}
