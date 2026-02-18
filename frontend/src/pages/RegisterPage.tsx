@@ -17,6 +17,12 @@ export function RegisterPage() {
     setError(null);
     setSuccess(null);
 
+    if (password.length < 6) {
+      setError('Пароль має містити не менше 6 символів');
+      setIsSubmitting(false);
+      return;
+    }
+
     try {
       const response = await fetch(`${API_URL}/auth/register`, {
         method: 'POST',
@@ -27,10 +33,15 @@ export function RegisterPage() {
       });
 
       if (!response.ok) {
-        setError('Не вдалося створити користувача');
+        if (response.status === 409 || response.status === 400) {
+          const data = await response.json();
+          setError(data.message || 'Користувач з таким логіном вже існує');
+        } else {
+          setError('Не вдалося створити користувача. Спробуйте інший логін');
+        }
       } else {
         setSuccess('Акаунт створено. Можете увійти.');
-        setTimeout(() => navigate('/login'), 1000);
+        setTimeout(() => navigate('/login'), 1500);
       }
     } catch {
       setError('Помилка мережі. Спробуйте ще раз.');
@@ -63,8 +74,10 @@ export function RegisterPage() {
             required
           />
         </label>
-        {error && <p className="auth-error">{error}</p>}
-        {success && <p className="auth-success">{success}</p>}
+        
+        {error && <p className="alert error">{error}</p>}
+        {success && <p className="auth-success" style={{ color: '#10b981', fontSize: '0.9rem', marginBottom: '1rem' }}>{success}</p>}
+        
         <button className="primary-button" type="submit" disabled={isSubmitting}>
           {isSubmitting ? 'Реєстрація...' : 'Зареєструватися'}
         </button>
@@ -75,4 +88,3 @@ export function RegisterPage() {
     </div>
   );
 }
-
