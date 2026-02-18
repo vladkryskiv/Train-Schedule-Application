@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, SelectQueryBuilder } from 'typeorm';
 import { Train } from './train.entity';
@@ -18,6 +18,10 @@ export class TrainsService {
   ) {}
 
   async create(createDto: CreateTrainDto): Promise<Train> {
+    if (new Date(createDto.arrivalTime) <= new Date(createDto.departureTime)) {
+      throw new BadRequestException('Час прибуття не може бути раніше або дорівнювати часу відправлення');
+    }
+
     const train = this.trainsRepository.create(createDto);
     return this.trainsRepository.save(train);
   }
@@ -83,6 +87,12 @@ export class TrainsService {
   async update(id: number, updateDto: UpdateTrainDto): Promise<Train> {
     const train = await this.findOne(id);
 
+    const futureDeparture = updateDto.departureTime ? new Date(updateDto.departureTime) : train.departureTime;
+    const futureArrival = updateDto.arrivalTime ? new Date(updateDto.arrivalTime) : train.arrivalTime;
+
+    if (futureArrival <= futureDeparture) {
+      throw new BadRequestException('Час прибуття не може бути раніше або дорівнювати часу відправлення');
+    }
     const updates: Partial<Train> = {};
 
     UPDATEABLE_FIELDS.forEach((field) => {

@@ -99,6 +99,13 @@ export function TrainSchedulePage({ token, onLogout }: TrainSchedulePageProps) {
     event.preventDefault();
     setError(null);
     try {
+      const depDate = new Date(form.departureTime);
+      const arrDate = new Date(form.arrivalTime);
+
+      if (arrDate <= depDate) {
+        setError('Помилка: Час прибуття не може бути раніше або дорівнювати часу відправлення.');
+        return; 
+      }
       const priceValue = priceInput === '' ? 0 : Number(priceInput);
       if (isNaN(priceValue) || priceValue < 0) {
         setError('Ціна повинна бути додатнім числом');
